@@ -3,7 +3,7 @@
 Playing with WindSurf AI Code Editor.
 
 Aim to create Crossword Game heavily using prompting and debugging.
-1. 5 hours in - generated the logic to select a word and grid placement with bruteforce
+1. 5 hours in - generated the logic to select a word and grid placement with bruteforce word selection
 
 
 Objective
