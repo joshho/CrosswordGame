@@ -3182,10 +3182,13 @@
 
     var fillWordInGrid = function(word, gameContent) {
         var gameTable = $('#game-table');
-        var wordInfo
-        for (var i = 0; i < gameContent.words.length; i++){
-            if (word === gameContent.words[i].word){
+        var wordInfo;
+        var wordIndex;
+        for (var i = 0; i < gameContent.words.length; i++) {
+            if (word === gameContent.words[i].word) {
                 wordInfo = gameContent.words[i];
+                wordIndex=i+1
+                break
             }
         }
         var row = wordInfo.row;
@@ -3194,11 +3197,62 @@
 
         if (direction === 'horizontal') {
             for (var i = 0; i < word.length; i++) {
-            gameTable.find(`tr:eq(${row}) td:eq(${col + i})`).text(word[i]);
+                var cell = gameTable.find(`tr:eq(${row}) td:eq(${col + i})`);
+                if (i==0){
+                    if (cell.text() === "") {
+                        cell.html(`<span class="word-index">${wordIndex}</span>${word[i]}`);
+                    }else{
+                        var existingIndex = cell.find('.word-index');
+                        if (existingIndex.length > 0) {
+                            existingIndex.html(`${existingIndex.text()},${wordIndex}`);
+                        } else {
+                            cell.html(`<span class="word-index">${wordIndex}</span>${word[i]}`);
+                        }
+                    }
+                }else{
+                    if (cell.text() === "") {
+                        cell.text(`${word[i]}`);
+                    }
+                }
             }
         } else if (direction === 'vertical') {
             for (var i = 0; i < word.length; i++) {
-            gameTable.find(`tr:eq(${row + i}) td:eq(${col})`).text(word[i]);
+                var cell = gameTable.find(`tr:eq(${row + i}) td:eq(${col})`);
+                if (i==0){
+                    if (cell.text() === "") {
+                        cell.html(`<span class="word-index">${wordIndex}</span>${word[i]}`);
+                    }else{
+                        var existingIndex = cell.find('.word-index');
+                        if (existingIndex.length > 0) {
+                            existingIndex.html(`${existingIndex.text()},${wordIndex}`);
+                        } else {
+                            cell.html(`<span class="word-index">${wordIndex}</span>${word[i]}`);
+                        }
+                    }
+                }else{
+                    if (cell.text() === "") {
+                        cell.text(`${word[i]}`);
+                    }
+                }
+            }
+        }
+    }
+
+    var crosswordHints = function(gameContent) {
+        var verticalHints = $('#crossword-hint-vertical');
+        var horizontalHints = $('#crossword-hint-horizontal');
+        verticalHints.empty();
+        horizontalHints.empty();
+
+        for (var i = 0; i < gameContent.words.length; i++) {
+            var word = gameContent.words[i];
+            var wordIndex = i + 1;
+            var wordText = word.word.toUpperCase();
+
+            if (word.direction === 'vertical') {
+                verticalHints.append(`<p>${wordIndex} - ${wordText}</p>`);
+            } else if (word.direction === 'horizontal') {
+                horizontalHints.append(`<p>${wordIndex} - ${wordText}</p>`);
             }
         }
     }
@@ -3226,6 +3280,8 @@
             gameTable.find(`tr:eq(${i}) td:eq(${j})`).addClass('grid-notUsed');
             }
         }
+
+        crosswordHints(gameContent);
 
         //Only for testing
         // giveUpGrid(gameContent)
