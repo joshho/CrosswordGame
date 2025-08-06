@@ -8,8 +8,7 @@ Aim to create Crossword Game heavily using prompting and debugging.
 
 Objective
 1. Generate a Grid of words
-2. Unit Tests
-3. Visualize the Grid in html/css
-4. Create an html game
+2. Visualize the Grid in html/css
+3. Create an html game
 
-<img width="1500" height="1500" alt="unnamed" src="https://github.com/user-attachments/assets/0f6179e2-042e-4d5a-bb31-33d33534b42e" />
+<img width="701" height="781" alt="image" src="https://github.com/user-attachments/assets/c4546a5e-754e-47e4-b312-d8765f3217ba" />
