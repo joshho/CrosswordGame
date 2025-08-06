@@ -1,3291 +1,556 @@
-    var gameContent = {}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<style>
+    /*https://stackoverflow.com/questions/6370690/media-queries-how-to-target-desktop-tablet-and-mobile*/
+    @media only screen and (min-width:320px)  { /* smartphones, portrait iPhone, portrait 480x320 phones (Android) */ 
+        td.grid-cell {
+            width: 20px;
+            height: 20px;
+        }
 
-    var dictofWords = {
-    "1": [
-        "A",
-        "I"
-    ],
-    "2": [
-        "AD",
-        "AH",
-        "AM",
-        "AN",
-        "AS",
-        "AT",
-        "BE",
-        "BY",
-        "CD",
-        "DO",
-        "GO",
-        "HE",
-        "HI",
-        "IF",
-        "IN",
-        "IS",
-        "IT",
-        "ME",
-        "MR",
-        "MY",
-        "NO",
-        "OF",
-        "OH",
-        "OK",
-        "ON",
-        "OR",
-        "SO",
-        "TO",
-        "TV",
-        "UP",
-        "US",
-        "WE"
-    ],
-    "3": [
-        "ACT",
-        "ADD",
-        "AGE",
-        "AGO",
-        "AID",
-        "AIM",
-        "AIR",
-        "ALL",
-        "AND",
-        "ANY",
-        "APP",
-        "ARM",
-        "ART",
-        "ASK",
-        "BAD",
-        "BAG",
-        "BAN",
-        "BAR",
-        "BED",
-        "BEE",
-        "BEG",
-        "BET",
-        "BIG",
-        "BIN",
-        "BIT",
-        "BOX",
-        "BOY",
-        "BUS",
-        "BUT",
-        "BUY",
-        "BYE",
-        "CAN",
-        "CAP",
-        "CAR",
-        "CAT",
-        "COW",
-        "CRY",
-        "CUP",
-        "CUT",
-        "DAD",
-        "DAY",
-        "DIE",
-        "DIG",
-        "DOG",
-        "DRY",
-        "DUE",
-        "DVD",
-        "EAR",
-        "EAT",
-        "EGG",
-        "END",
-        "EYE",
-        "FAN",
-        "FAR",
-        "FAT",
-        "FEE",
-        "FEW",
-        "FIT",
-        "FIX",
-        "FLU",
-        "FLY",
-        "FOR",
-        "FRY",
-        "FUN",
-        "FUR",
-        "GAS",
-        "GET",
-        "GOD",
-        "GUN",
-        "GUY",
-        "HAD",
-        "HAS",
-        "HER",
-        "HIM",
-        "HIP",
-        "HIS",
-        "HIT",
-        "HOT",
-        "HOW",
-        "ICE",
-        "ILL",
-        "INN",
-        "ITS",
-        "JAM",
-        "JOB",
-        "JOY",
-        "KEY",
-        "KID",
-        "LAW",
-        "LAY",
-        "LEG",
-        "LET",
-        "LIE",
-        "LIP",
-        "LOT",
-        "LOW",
-        "MAD",
-        "MAN",
-        "MAP",
-        "MAY",
-        "MIX",
-        "MRS",
-        "MUD",
-        "MUM",
-        "NET",
-        "NEW",
-        "NOR",
-        "NOT",
-        "NOW",
-        "ODD",
-        "OFF",
-        "OIL",
-        "OLD",
-        "ONE",
-        "OUR",
-        "OUT",
-        "OWE",
-        "OWN",
-        "PAN",
-        "PAY",
-        "PER",
-        "PET",
-        "PIE",
-        "PIG",
-        "PIN",
-        "POP",
-        "POT",
-        "PUT",
-        "RAW",
-        "RED",
-        "RID",
-        "ROW",
-        "RUB",
-        "RUN",
-        "SAD",
-        "SAY",
-        "SEA",
-        "SEE",
-        "SET",
-        "SEX",
-        "SHE",
-        "SHY",
-        "SIR",
-        "SIT",
-        "SIX",
-        "SKI",
-        "SKY",
-        "SON",
-        "SOW",
-        "SUM",
-        "SUN",
-        "TAX",
-        "TEA",
-        "TEN",
-        "THE",
-        "TIE",
-        "TIN",
-        "TIP",
-        "TOE",
-        "TOO",
-        "TOP",
-        "TOY",
-        "TRY",
-        "TWO",
-        "USE",
-        "VAN",
-        "VIA",
-        "WAR",
-        "WAS",
-        "WAY",
-        "WEB",
-        "WET",
-        "WHO",
-        "WHY",
-        "WIN",
-        "WOW",
-        "YES",
-        "YET",
-        "YOU",
-        "ZIP",
-        "ZOO"
-    ],
-    "4": [
-        "ABLE",
-        "AGED",
-        "ALSO",
-        "AREA",
-        "ARMS",
-        "ARMY",
-        "AUNT",
-        "AWAY",
-        "BABY",
-        "BACK",
-        "BAKE",
-        "BALL",
-        "BAND",
-        "BANK",
-        "BASE",
-        "BATH",
-        "BEAN",
-        "BEAR",
-        "BEAT",
-        "BEEF",
-        "BEER",
-        "BELL",
-        "BELT",
-        "BEND",
-        "BENT",
-        "BEST",
-        "BIKE",
-        "BILL",
-        "BIRD",
-        "BITE",
-        "BLOG",
-        "BLOW",
-        "BLUE",
-        "BOAT",
-        "BODY",
-        "BOIL",
-        "BOMB",
-        "BOND",
-        "BONE",
-        "BOOK",
-        "BOOT",
-        "BORN",
-        "BOSS",
-        "BOTH",
-        "BOWL",
-        "BURN",
-        "BURY",
-        "BUSH",
-        "BUSY",
-        "CAFE",
-        "CAKE",
-        "CALL",
-        "CALM",
-        "CAMP",
-        "CARD",
-        "CARE",
-        "CASE",
-        "CASH",
-        "CAST",
-        "CELL",
-        "CENT",
-        "CHAT",
-        "CHEF",
-        "CHIP",
-        "CITE",
-        "CITY",
-        "CLUB",
-        "CLUE",
-        "COAL",
-        "COAT",
-        "CODE",
-        "COIN",
-        "COLD",
-        "COME",
-        "COOK",
-        "COOL",
-        "COPY",
-        "CORE",
-        "COST",
-        "CREW",
-        "CROP",
-        "CURE",
-        "DARK",
-        "DATA",
-        "DATE",
-        "DEAD",
-        "DEAL",
-        "DEAR",
-        "DEBT",
-        "DEEP",
-        "DENY",
-        "DESK",
-        "DIET",
-        "DIRT",
-        "DISC",
-        "DISH",
-        "DOOR",
-        "DOWN",
-        "DRAG",
-        "DRAW",
-        "DROP",
-        "DRUG",
-        "DRUM",
-        "DUST",
-        "DUTY",
-        "EACH",
-        "EARN",
-        "EAST",
-        "EASY",
-        "EDGE",
-        "EDIT",
-        "ELSE",
-        "EURO",
-        "EVEN",
-        "EVER",
-        "EVIL",
-        "EXAM",
-        "FACE",
-        "FACT",
-        "FAIL",
-        "FAIR",
-        "FALL",
-        "FARM",
-        "FAST",
-        "FEAR",
-        "FEED",
-        "FEEL",
-        "FILE",
-        "FILL",
-        "FILM",
-        "FIND",
-        "FINE",
-        "FIRE",
-        "FIRM",
-        "FISH",
-        "FIVE",
-        "FLAG",
-        "FLAT",
-        "FLOW",
-        "FOLD",
-        "FOLK",
-        "FOOD",
-        "FOOT",
-        "FORK",
-        "FORM",
-        "FOUR",
-        "FREE",
-        "FROM",
-        "FUEL",
-        "FULL",
-        "FUND",
-        "GAIN",
-        "GAME",
-        "GANG",
-        "GATE",
-        "GIFT",
-        "GIRL",
-        "GIVE",
-        "GLAD",
-        "GOAL",
-        "GOLD",
-        "GOLF",
-        "GOOD",
-        "GRAB",
-        "GREY",
-        "GROW",
-        "HAIR",
-        "HALF",
-        "HALL",
-        "HAND",
-        "HANG",
-        "HARD",
-        "HATE",
-        "HAVE",
-        "HEAD",
-        "HEAR",
-        "HEAT",
-        "HEEL",
-        "HELP",
-        "HERE",
-        "HERO",
-        "HIDE",
-        "HIGH",
-        "HILL",
-        "HIRE",
-        "HOLY",
-        "HOME",
-        "HOPE",
-        "HOST",
-        "HOUR",
-        "HUGE",
-        "HUNT",
-        "HURT",
-        "IDEA",
-        "INCH",
-        "INTO",
-        "IRON",
-        "ITEM",
-        "JAZZ",
-        "JOIN",
-        "JOKE",
-        "JULY",
-        "JUMP",
-        "JUNE",
-        "JUST",
-        "KEEN",
-        "KEEP",
-        "KICK",
-        "KILL",
-        "KIND",
-        "KING",
-        "KISS",
-        "KNEE",
-        "KNOW",
-        "LACK",
-        "LADY",
-        "LAKE",
-        "LAMP",
-        "LAND",
-        "LAST",
-        "LATE",
-        "LAZY",
-        "LEAD",
-        "LEAF",
-        "LEAN",
-        "LEFT",
-        "LEND",
-        "LESS",
-        "LIFE",
-        "LIFT",
-        "LIKE",
-        "LINE",
-        "LINK",
-        "LIST",
-        "LIVE",
-        "LOAD",
-        "LOAN",
-        "LOCK",
-        "LONG",
-        "LOOK",
-        "LORD",
-        "LOSE",
-        "LOSS",
-        "LOST",
-        "LOUD",
-        "LOVE",
-        "LUCK",
-        "MAIL",
-        "MAIN",
-        "MAKE",
-        "MALE",
-        "MANY",
-        "MARK",
-        "MASS",
-        "MEAL",
-        "MEAN",
-        "MEAT",
-        "MEET",
-        "MENU",
-        "MESS",
-        "MILE",
-        "MILK",
-        "MIND",
-        "MINE",
-        "MISS",
-        "MOOD",
-        "MOON",
-        "MORE",
-        "MOST",
-        "MOVE",
-        "MUCH",
-        "MUST",
-        "NAIL",
-        "NAME",
-        "NAVY",
-        "NEAR",
-        "NECK",
-        "NEED",
-        "NEWS",
-        "NEXT",
-        "NICE",
-        "NINE",
-        "NONE",
-        "NOSE",
-        "NOTE",
-        "OKAY",
-        "ONCE",
-        "ONLY",
-        "ONTO",
-        "OPEN",
-        "OVEN",
-        "OVER",
-        "PACE",
-        "PACK",
-        "PAGE",
-        "PAIN",
-        "PAIR",
-        "PALE",
-        "PARK",
-        "PART",
-        "PASS",
-        "PAST",
-        "PATH",
-        "PICK",
-        "PILE",
-        "PINK",
-        "PIPE",
-        "PLAN",
-        "PLAY",
-        "PLOT",
-        "POEM",
-        "POET",
-        "POLE",
-        "POOL",
-        "POOR",
-        "PORT",
-        "POSE",
-        "POST",
-        "POUR",
-        "PRAY",
-        "PULL",
-        "PURE",
-        "PUSH",
-        "QUIT",
-        "RACE",
-        "RAIL",
-        "RAIN",
-        "RANK",
-        "RARE",
-        "RATE",
-        "READ",
-        "REAL",
-        "RELY",
-        "RENT",
-        "REST",
-        "RICE",
-        "RICH",
-        "RIDE",
-        "RING",
-        "RISE",
-        "RISK",
-        "ROAD",
-        "ROCK",
-        "ROLE",
-        "ROLL",
-        "ROOF",
-        "ROOM",
-        "ROOT",
-        "ROPE",
-        "RUDE",
-        "RULE",
-        "RUSH",
-        "SAFE",
-        "SAIL",
-        "SALE",
-        "SALT",
-        "SAME",
-        "SAND",
-        "SAVE",
-        "SCAN",
-        "SEAT",
-        "SEED",
-        "SEEK",
-        "SEEM",
-        "SELF",
-        "SELL",
-        "SEND",
-        "SHIP",
-        "SHOE",
-        "SHOP",
-        "SHOT",
-        "SHOW",
-        "SHUT",
-        "SICK",
-        "SIDE",
-        "SIGN",
-        "SILK",
-        "SING",
-        "SINK",
-        "SITE",
-        "SIZE",
-        "SKIN",
-        "SLIP",
-        "SLOW",
-        "SNOW",
-        "SOAP",
-        "SOCK",
-        "SOFT",
-        "SOIL",
-        "SOME",
-        "SONG",
-        "SOON",
-        "SORT",
-        "SOUL",
-        "SOUP",
-        "SPOT",
-        "STAR",
-        "STAY",
-        "STEP",
-        "STOP",
-        "SUCH",
-        "SUIT",
-        "SURE",
-        "SWIM",
-        "TAIL",
-        "TAKE",
-        "TALE",
-        "TALK",
-        "TALL",
-        "TANK",
-        "TAPE",
-        "TASK",
-        "TAXI",
-        "TEAM",
-        "TEAR",
-        "TELL",
-        "TEND",
-        "TENT",
-        "TERM",
-        "TEST",
-        "TEXT",
-        "THAN",
-        "THAT",
-        "THEM",
-        "THEN",
-        "THEY",
-        "THIN",
-        "THIS",
-        "THUS",
-        "TIDY",
-        "TILL",
-        "TIME",
-        "TINY",
-        "TONE",
-        "TOOL",
-        "TOUR",
-        "TOWN",
-        "TRIP",
-        "TRUE",
-        "TUBE",
-        "TUNE",
-        "TURN",
-        "TWIN",
-        "TYPE",
-        "TYRE",
-        "UGLY",
-        "UNIT",
-        "UPON",
-        "URGE",
-        "USED",
-        "USER",
-        "VARY",
-        "VAST",
-        "VERY",
-        "VIEW",
-        "VOTE",
-        "WAGE",
-        "WAIT",
-        "WAKE",
-        "WALK",
-        "WALL",
-        "WANT",
-        "WARM",
-        "WARN",
-        "WASH",
-        "WAVE",
-        "WEAK",
-        "WEAR",
-        "WEEK",
-        "WELL",
-        "WEST",
-        "WHAT",
-        "WHEN",
-        "WHOM",
-        "WIDE",
-        "WIFE",
-        "WILD",
-        "WILL",
-        "WIND",
-        "WINE",
-        "WING",
-        "WIRE",
-        "WISE",
-        "WISH",
-        "WITH",
-        "WOOD",
-        "WORD",
-        "WORK",
-        "WRAP",
-        "YARD",
-        "YEAH",
-        "YEAR",
-        "YOUR",
-        "ZONE"
-    ],
-    "5": [
-        "ABOUT",
-        "ABOVE",
-        "ACTOR",
-        "ADAPT",
-        "ADMIT",
-        "ADOPT",
-        "ADULT",
-        "AFTER",
-        "AGAIN",
-        "AGENT",
-        "AGREE",
-        "AHEAD",
-        "ALARM",
-        "ALBUM",
-        "ALIVE",
-        "ALLOW",
-        "ALONE",
-        "ALONG",
-        "ALTER",
-        "AMONG",
-        "ANGER",
-        "ANGLE",
-        "ANGRY",
-        "ANKLE",
-        "ANNOY",
-        "APART",
-        "APPLE",
-        "APPLY",
-        "APRIL",
-        "ARGUE",
-        "ARISE",
-        "ARMED",
-        "AVOID",
-        "AWARD",
-        "AWARE",
-        "AWFUL",
-        "BADLY",
-        "BASED",
-        "BASIC",
-        "BASIS",
-        "BEACH",
-        "BEGIN",
-        "BEING",
-        "BELOW",
-        "BIRTH",
-        "BLACK",
-        "BLAME",
-        "BLANK",
-        "BLIND",
-        "BLOCK",
-        "BLOOD",
-        "BOARD",
-        "BORED",
-        "BRAIN",
-        "BRAND",
-        "BRAVE",
-        "BREAD",
-        "BREAK",
-        "BRIDE",
-        "BRIEF",
-        "BRING",
-        "BROAD",
-        "BROWN",
-        "BRUSH",
-        "BUILD",
-        "BUNCH",
-        "CABLE",
-        "CARRY",
-        "CATCH",
-        "CAUSE",
-        "CHAIN",
-        "CHAIR",
-        "CHART",
-        "CHEAP",
-        "CHEAT",
-        "CHECK",
-        "CHEST",
-        "CHIEF",
-        "CHILD",
-        "CIVIL",
-        "CLAIM",
-        "CLASS",
-        "CLEAN",
-        "CLEAR",
-        "CLICK",
-        "CLIMB",
-        "CLOCK",
-        "CLOSE",
-        "CLOTH",
-        "CLOUD",
-        "COACH",
-        "COAST",
-        "COULD",
-        "COUNT",
-        "COURT",
-        "COVER",
-        "CRASH",
-        "CRAZY",
-        "CREAM",
-        "CRIME",
-        "CROSS",
-        "CROWD",
-        "CRUEL",
-        "CURLY",
-        "CURVE",
-        "CYCLE",
-        "DAILY",
-        "DANCE",
-        "DEATH",
-        "DELAY",
-        "DEPTH",
-        "DIARY",
-        "DIRTY",
-        "DOUBT",
-        "DOZEN",
-        "DRAFT",
-        "DRAMA",
-        "DREAM",
-        "DRESS",
-        "DRINK",
-        "DRIVE",
-        "DRUNK",
-        "EARLY",
-        "EARTH",
-        "EIGHT",
-        "ELECT",
-        "EMAIL",
-        "EMPTY",
-        "ENEMY",
-        "ENJOY",
-        "ENTER",
-        "ENTRY",
-        "EQUAL",
-        "ERROR",
-        "ESSAY",
-        "EVENT",
-        "EVERY",
-        "EXACT",
-        "EXIST",
-        "EXTRA",
-        "FAITH",
-        "FALSE",
-        "FANCY",
-        "FAULT",
-        "FENCE",
-        "FIELD",
-        "FIFTH",
-        "FIFTY",
-        "FIGHT",
-        "FINAL",
-        "FIRST",
-        "FIXED",
-        "FLAME",
-        "FLASH",
-        "FLOAT",
-        "FLOOD",
-        "FLOOR",
-        "FLOUR",
-        "FOCUS",
-        "FORCE",
-        "FOUND",
-        "FRESH",
-        "FRONT",
-        "FRUIT",
-        "FULLY",
-        "FUNNY",
-        "GIANT",
-        "GLASS",
-        "GLOVE",
-        "GOING",
-        "GRADE",
-        "GRAIN",
-        "GRAND",
-        "GRANT",
-        "GRASS",
-        "GRAVE",
-        "GREAT",
-        "GREEN",
-        "GROUP",
-        "GUARD",
-        "GUESS",
-        "GUEST",
-        "GUIDE",
-        "HABIT",
-        "HAPPY",
-        "HEART",
-        "HEAVY",
-        "HELLO",
-        "HOBBY",
-        "HORSE",
-        "HOTEL",
-        "HOUSE",
-        "HUMAN",
-        "HURRY",
-        "IDEAL",
-        "IMAGE",
-        "INDEX",
-        "INNER",
-        "INPUT",
-        "ISSUE",
-        "JEANS",
-        "JOINT",
-        "JUDGE",
-        "JUICE",
-        "KNIFE",
-        "KNOCK",
-        "LARGE",
-        "LATER",
-        "LAUGH",
-        "LAYER",
-        "LEARN",
-        "LEAST",
-        "LEAVE",
-        "LEGAL",
-        "LEMON",
-        "LEVEL",
-        "LIGHT",
-        "LIMIT",
-        "LOCAL",
-        "LOOSE",
-        "LOYAL",
-        "LUCKY",
-        "LUNCH",
-        "MAGIC",
-        "MAJOR",
-        "MARCH",
-        "MARRY",
-        "MATCH",
-        "MATHS",
-        "MAYBE",
-        "MEDIA",
-        "METAL",
-        "MIGHT",
-        "MINOR",
-        "MODEL",
-        "MONEY",
-        "MONTH",
-        "MORAL",
-        "MOTOR",
-        "MOUSE",
-        "MOUTH",
-        "MOVIE",
-        "MUSIC",
-        "NAKED",
-        "NERVE",
-        "NEVER",
-        "NIGHT",
-        "NOISE",
-        "NORTH",
-        "NOVEL",
-        "OCEAN",
-        "OFFER",
-        "OFTEN",
-        "ORDER",
-        "OTHER",
-        "OUGHT",
-        "OUTER",
-        "OWNER",
-        "PAINT",
-        "PANEL",
-        "PANTS",
-        "PAPER",
-        "PARTY",
-        "PAUSE",
-        "PEACE",
-        "PHASE",
-        "PHONE",
-        "PHOTO",
-        "PIANO",
-        "PIECE",
-        "PILOT",
-        "PLACE",
-        "PLANE",
-        "PLANT",
-        "PLATE",
-        "POINT",
-        "POUND",
-        "POWER",
-        "PRESS",
-        "PRICE",
-        "PRIDE",
-        "PRIME",
-        "PRINT",
-        "PRIOR",
-        "PRIZE",
-        "PROOF",
-        "PROUD",
-        "PROVE",
-        "QUEEN",
-        "QUEUE",
-        "QUICK",
-        "QUIET",
-        "QUITE",
-        "QUOTE",
-        "RADIO",
-        "RAISE",
-        "RANGE",
-        "RAPID",
-        "REACH",
-        "REACT",
-        "READY",
-        "REFER",
-        "RELAX",
-        "REPLY",
-        "RIGHT",
-        "RIVER",
-        "ROBOT",
-        "ROUGH",
-        "ROUND",
-        "ROUTE",
-        "ROYAL",
-        "RUGBY",
-        "RURAL",
-        "SADLY",
-        "SALAD",
-        "SAUCE",
-        "SCALE",
-        "SCARY",
-        "SCENE",
-        "SCORE",
-        "SENSE",
-        "SERVE",
-        "SEVEN",
-        "SHADE",
-        "SHAKE",
-        "SHAME",
-        "SHAPE",
-        "SHARE",
-        "SHARP",
-        "SHEET",
-        "SHELF",
-        "SHELL",
-        "SHIFT",
-        "SHINE",
-        "SHINY",
-        "SHIRT",
-        "SHOCK",
-        "SHOOT",
-        "SHORT",
-        "SHOUT",
-        "SIGHT",
-        "SILLY",
-        "SINCE",
-        "SIXTY",
-        "SKILL",
-        "SKIRT",
-        "SLAVE",
-        "SLEEP",
-        "SLICE",
-        "SLIDE",
-        "SLOPE",
-        "SMALL",
-        "SMART",
-        "SMELL",
-        "SMILE",
-        "SMOKE",
-        "SNAKE",
-        "SOLAR",
-        "SOLID",
-        "SOLVE",
-        "SORRY",
-        "SOUND",
-        "SOUTH",
-        "SPACE",
-        "SPEAK",
-        "SPEED",
-        "SPELL",
-        "SPEND",
-        "SPICY",
-        "SPLIT",
-        "SPOON",
-        "SPORT",
-        "STAFF",
-        "STAGE",
-        "STAIR",
-        "STAMP",
-        "STAND",
-        "STARE",
-        "START",
-        "STATE",
-        "STEAL",
-        "STEEL",
-        "STEEP",
-        "STICK",
-        "STIFF",
-        "STILL",
-        "STOCK",
-        "STONE",
-        "STORE",
-        "STORM",
-        "STORY",
-        "STUDY",
-        "STUFF",
-        "STYLE",
-        "SUGAR",
-        "SWEAR",
-        "SWEEP",
-        "SWEET",
-        "TABLE",
-        "TASTE",
-        "TEACH",
-        "THANK",
-        "THEIR",
-        "THEME",
-        "THERE",
-        "THICK",
-        "THIEF",
-        "THING",
-        "THINK",
-        "THIRD",
-        "THREE",
-        "THROW",
-        "TIGHT",
-        "TIRED",
-        "TITLE",
-        "TODAY",
-        "TOOTH",
-        "TOPIC",
-        "TOTAL",
-        "TOUCH",
-        "TOUGH",
-        "TOWEL",
-        "TOWER",
-        "TRACK",
-        "TRADE",
-        "TRAIN",
-        "TREAT",
-        "TREND",
-        "TRIAL",
-        "TRICK",
-        "TRUCK",
-        "TRULY",
-        "TRUST",
-        "TRUTH",
-        "TWICE",
-        "UNCLE",
-        "UNDER",
-        "UNION",
-        "UNTIL",
-        "UPPER",
-        "UPSET",
-        "URBAN",
-        "USUAL",
-        "VALUE",
-        "VENUE",
-        "VIDEO",
-        "VIRUS",
-        "VISIT",
-        "VITAL",
-        "VOICE",
-        "WASTE",
-        "WATCH",
-        "WATER",
-        "WEIGH",
-        "WHEEL",
-        "WHERE",
-        "WHICH",
-        "WHILE",
-        "WHITE",
-        "WHOLE",
-        "WHOSE",
-        "WOMAN",
-        "WORLD",
-        "WORRY",
-        "WORSE",
-        "WORST",
-        "WORTH",
-        "WOULD",
-        "WOUND",
-        "WRONG",
-        "YOUNG",
-        "YOURS",
-        "YOUTH"
-    ],
-    "6": [
-        "ABROAD",
-        "ACCEPT",
-        "ACCESS",
-        "ACCUSE",
-        "ACROSS",
-        "ACTION",
-        "ACTIVE",
-        "ACTUAL",
-        "ADMIRE",
-        "ADVICE",
-        "ADVISE",
-        "AFFAIR",
-        "AFFECT",
-        "AFFORD",
-        "AFRAID",
-        "AGENCY",
-        "AGENDA",
-        "ALMOST",
-        "ALWAYS",
-        "AMAZED",
-        "AMOUNT",
-        "ANIMAL",
-        "ANNUAL",
-        "ANSWER",
-        "ANYONE",
-        "ANYWAY",
-        "APPEAL",
-        "APPEAR",
-        "AROUND",
-        "ARREST",
-        "ARRIVE",
-        "ARTIST",
-        "ASLEEP",
-        "ASPECT",
-        "ASSESS",
-        "ASSIST",
-        "ASSUME",
-        "ATTACH",
-        "ATTACK",
-        "ATTEND",
-        "AUGUST",
-        "AUTHOR",
-        "AUTUMN",
-        "BANANA",
-        "BATTLE",
-        "BEAUTY",
-        "BECOME",
-        "BEFORE",
-        "BEHAVE",
-        "BEHIND",
-        "BELIEF",
-        "BELONG",
-        "BETTER",
-        "BEYOND",
-        "BITTER",
-        "BLONDE",
-        "BORDER",
-        "BORING",
-        "BORROW",
-        "BOTHER",
-        "BOTTLE",
-        "BOTTOM",
-        "BRANCH",
-        "BREAST",
-        "BREATH",
-        "BRIDGE",
-        "BRIGHT",
-        "BROKEN",
-        "BUBBLE",
-        "BUDGET",
-        "BULLET",
-        "BUTTER",
-        "BUTTON",
-        "CAMERA",
-        "CAMPUS",
-        "CANCEL",
-        "CANCER",
-        "CANNOT",
-        "CAREER",
-        "CARPET",
-        "CARROT",
-        "CASTLE",
-        "CENTRE",
-        "CHANCE",
-        "CHANGE",
-        "CHARGE",
-        "CHEESE",
-        "CHOICE",
-        "CHOOSE",
-        "CHURCH",
-        "CINEMA",
-        "CIRCLE",
-        "CLAUSE",
-        "CLEVER",
-        "CLIENT",
-        "CLOSED",
-        "COFFEE",
-        "COLOUR",
-        "COLUMN",
-        "COMEDY",
-        "COMMIT",
-        "COMMON",
-        "COOKER",
-        "CORNER",
-        "COTTON",
-        "COUNTY",
-        "COUPLE",
-        "COURSE",
-        "COUSIN",
-        "CREATE",
-        "CREDIT",
-        "CRISIS",
-        "CRITIC",
-        "CURVED",
-        "CUSTOM",
-        "DAMAGE",
-        "DANCER",
-        "DANGER",
-        "DEBATE",
-        "DECADE",
-        "DECENT",
-        "DECIDE",
-        "DEEPLY",
-        "DEFEAT",
-        "DEFEND",
-        "DEFINE",
-        "DEGREE",
-        "DEMAND",
-        "DEPEND",
-        "DESERT",
-        "DESIGN",
-        "DESIRE",
-        "DETAIL",
-        "DETECT",
-        "DEVICE",
-        "DINNER",
-        "DIRECT",
-        "DIVIDE",
-        "DOCTOR",
-        "DOLLAR",
-        "DONATE",
-        "DOUBLE",
-        "DRIVER",
-        "DURING",
-        "EASILY",
-        "EDITOR",
-        "EFFECT",
-        "EFFORT",
-        "EIGHTY",
-        "EITHER",
-        "ELEVEN",
-        "EMERGE",
-        "EMPLOY",
-        "ENABLE",
-        "ENDING",
-        "ENERGY",
-        "ENGAGE",
-        "ENGINE",
-        "ENOUGH",
-        "ENSURE",
-        "ENTIRE",
-        "ESCAPE",
-        "ESTATE",
-        "EXCEPT",
-        "EXCUSE",
-        "EXPAND",
-        "EXPECT",
-        "EXPERT",
-        "EXPORT",
-        "EXPOSE",
-        "EXTEND",
-        "EXTENT",
-        "FACTOR",
-        "FAIRLY",
-        "FAMILY",
-        "FAMOUS",
-        "FARMER",
-        "FASTEN",
-        "FATHER",
-        "FAVOUR",
-        "FELLOW",
-        "FEMALE",
-        "FIGURE",
-        "FINGER",
-        "FINISH",
-        "FLIGHT",
-        "FLOWER",
-        "FLYING",
-        "FOLLOW",
-        "FOREST",
-        "FORGET",
-        "FORMER",
-        "FOURTH",
-        "FREELY",
-        "FREEZE",
-        "FRIDAY",
-        "FRIDGE",
-        "FRIEND",
-        "FUTURE",
-        "GARAGE",
-        "GARDEN",
-        "GATHER",
-        "GENTLE",
-        "GENTLY",
-        "GLOBAL",
-        "GOVERN",
-        "GROUND",
-        "GROWTH",
-        "GUILTY",
-        "HANDLE",
-        "HAPPEN",
-        "HARDLY",
-        "HEALTH",
-        "HEIGHT",
-        "HIGHLY",
-        "HOLLOW",
-        "HONEST",
-        "HONOUR",
-        "HUMOUR",
-        "HUNGRY",
-        "IGNORE",
-        "IMPACT",
-        "INCOME",
-        "INDEED",
-        "INDOOR",
-        "INFECT",
-        "INFORM",
-        "INJECT",
-        "INJURY",
-        "INSECT",
-        "INSIDE",
-        "INSIST",
-        "INSULT",
-        "INTEND",
-        "INVENT",
-        "INVEST",
-        "INVITE",
-        "ISLAND",
-        "ITSELF",
-        "JACKET",
-        "JUNIOR",
-        "LATTER",
-        "LAUNCH",
-        "LAWYER",
-        "LEADER",
-        "LEAGUE",
-        "LENGTH",
-        "LESSON",
-        "LETTER",
-        "LIKELY",
-        "LISTEN",
-        "LITTLE",
-        "LIVING",
-        "LOCATE",
-        "LOVELY",
-        "MAINLY",
-        "MANAGE",
-        "MARKET",
-        "MASTER",
-        "MATTER",
-        "MEDIUM",
-        "MEMBER",
-        "MEMORY",
-        "MENTAL",
-        "METHOD",
-        "MIDDLE",
-        "MINUTE",
-        "MIRROR",
-        "MOBILE",
-        "MODERN",
-        "MOMENT",
-        "MONDAY",
-        "MOSTLY",
-        "MOTHER",
-        "MOTION",
-        "MUSEUM",
-        "MYSELF",
-        "NARROW",
-        "NATION",
-        "NATURE",
-        "NEARBY",
-        "NEARLY",
-        "NEEDLE",
-        "NOBODY",
-        "NORMAL",
-        "NOTICE",
-        "NOTION",
-        "NUMBER",
-        "OBJECT",
-        "OBTAIN",
-        "OCCUPY",
-        "OFFICE",
-        "ONLINE",
-        "OPENLY",
-        "OPPOSE",
-        "OPTION",
-        "ORANGE",
-        "ORIGIN",
-        "OUTPUT",
-        "PALACE",
-        "PARENT",
-        "PEOPLE",
-        "PERIOD",
-        "PERMIT",
-        "PERSON",
-        "PETROL",
-        "PHRASE",
-        "PLANET",
-        "PLAYER",
-        "PLEASE",
-        "PLENTY",
-        "POCKET",
-        "POETRY",
-        "POLICE",
-        "POLICY",
-        "POSTER",
-        "POTATO",
-        "POWDER",
-        "PRAISE",
-        "PRAYER",
-        "PREFER",
-        "PRETTY",
-        "PRIEST",
-        "PRINCE",
-        "PRISON",
-        "PROFIT",
-        "PROPER",
-        "PUBLIC",
-        "PURELY",
-        "PURPLE",
-        "PURSUE",
-        "RACIAL",
-        "RARELY",
-        "RATHER",
-        "READER",
-        "REALLY",
-        "REASON",
-        "RECALL",
-        "RECENT",
-        "RECORD",
-        "REDUCE",
-        "REFORM",
-        "REFUSE",
-        "REGARD",
-        "REGION",
-        "REJECT",
-        "RELATE",
-        "RELIEF",
-        "REMAIN",
-        "REMARK",
-        "REMIND",
-        "REMOTE",
-        "REMOVE",
-        "REPAIR",
-        "REPEAT",
-        "REPORT",
-        "RESCUE",
-        "RESIST",
-        "RESORT",
-        "RESULT",
-        "RETIRE",
-        "RETURN",
-        "REVEAL",
-        "REVIEW",
-        "REWARD",
-        "RHYTHM",
-        "RUBBER",
-        "RUNNER",
-        "SAFETY",
-        "SAILOR",
-        "SALARY",
-        "SAMPLE",
-        "SAVING",
-        "SCARED",
-        "SCHEME",
-        "SCHOOL",
-        "SCREAM",
-        "SCREEN",
-        "SCRIPT",
-        "SEARCH",
-        "SEASON",
-        "SECOND",
-        "SECRET",
-        "SECTOR",
-        "SECURE",
-        "SELECT",
-        "SENIOR",
-        "SERIES",
-        "SETTLE",
-        "SEVERE",
-        "SEXUAL",
-        "SHADOW",
-        "SHOULD",
-        "SHOWER",
-        "SIGNAL",
-        "SILENT",
-        "SILVER",
-        "SIMPLE",
-        "SIMPLY",
-        "SINGER",
-        "SINGLE",
-        "SISTER",
-        "SKIING",
-        "SLIGHT",
-        "SLOWLY",
-        "SMOOTH",
-        "SOCCER",
-        "SOCIAL",
-        "SOURCE",
-        "SPEECH",
-        "SPIDER",
-        "SPIRIT",
-        "SPOKEN",
-        "SPREAD",
-        "SPRING",
-        "SQUARE",
-        "STABLE",
-        "STATUE",
-        "STATUS",
-        "STEADY",
-        "STICKY",
-        "STREAM",
-        "STREET",
-        "STRESS",
-        "STRICT",
-        "STRIKE",
-        "STRING",
-        "STRONG",
-        "STUDIO",
-        "STUPID",
-        "SUBMIT",
-        "SUDDEN",
-        "SUFFER",
-        "SUMMER",
-        "SUNDAY",
-        "SUPPLY",
-        "SURELY",
-        "SURVEY",
-        "SWITCH",
-        "SYMBOL",
-        "SYSTEM",
-        "TABLET",
-        "TALENT",
-        "TARGET",
-        "TENNIS",
-        "THANKS",
-        "THEIRS",
-        "THEORY",
-        "THIRTY",
-        "THOUGH",
-        "THREAT",
-        "THROAT",
-        "TICKET",
-        "TOILET",
-        "TOMATO",
-        "TONGUE",
-        "TRAVEL",
-        "TUNNEL",
-        "TWELVE",
-        "TWENTY",
-        "UNABLE",
-        "UNFAIR",
-        "UNIQUE",
-        "UNITED",
-        "UNLESS",
-        "UNLIKE",
-        "UPDATE",
-        "USEFUL",
-        "VALLEY",
-        "VICTIM",
-        "VIEWER",
-        "VISION",
-        "VISUAL",
-        "VOLUME",
-        "WAITER",
-        "WEALTH",
-        "WEAPON",
-        "WEIGHT",
-        "WIDELY",
-        "WINDOW",
-        "WINNER",
-        "WINTER",
-        "WITHIN",
-        "WONDER",
-        "WOODEN",
-        "WORKER",
-        "YELLOW"
-    ],
-    "7": [
-        "ACCOUNT",
-        "ACHIEVE",
-        "ACQUIRE",
-        "ACTRESS",
-        "ADDRESS",
-        "ADVANCE",
-        "AGAINST",
-        "AIRLINE",
-        "AIRPORT",
-        "ALCOHOL",
-        "ALREADY",
-        "AMAZING",
-        "ANALYSE",
-        "ANCIENT",
-        "ANNOYED",
-        "ANOTHER",
-        "ANXIOUS",
-        "ANYBODY",
-        "ANYMORE",
-        "APPROVE",
-        "ARRANGE",
-        "ARRIVAL",
-        "ARTICLE",
-        "ASHAMED",
-        "ATHLETE",
-        "ATTEMPT",
-        "ATTRACT",
-        "AVERAGE",
-        "BALANCE",
-        "BARRIER",
-        "BATTERY",
-        "BECAUSE",
-        "BEDROOM",
-        "BELIEVE",
-        "BENEFIT",
-        "BETWEEN",
-        "BICYCLE",
-        "BILLION",
-        "BIOLOGY",
-        "BISCUIT",
-        "BREATHE",
-        "BROTHER",
-        "CAMPING",
-        "CAPABLE",
-        "CAPITAL",
-        "CAPTAIN",
-        "CAPTURE",
-        "CAREFUL",
-        "CARTOON",
-        "CEILING",
-        "CENTRAL",
-        "CENTURY",
-        "CERTAIN",
-        "CHANNEL",
-        "CHAPTER",
-        "CHARITY",
-        "CHICKEN",
-        "CITIZEN",
-        "CLASSIC",
-        "CLEARLY",
-        "CLIMATE",
-        "CLOSELY",
-        "CLOTHES",
-        "COLLECT",
-        "COLLEGE",
-        "COMBINE",
-        "COMFORT",
-        "COMMAND",
-        "COMMENT",
-        "COMPANY",
-        "COMPARE",
-        "COMPETE",
-        "COMPLEX",
-        "CONCEPT",
-        "CONCERN",
-        "CONCERT",
-        "CONDUCT",
-        "CONFIRM",
-        "CONFUSE",
-        "CONNECT",
-        "CONSIST",
-        "CONSUME",
-        "CONTACT",
-        "CONTAIN",
-        "CONTENT",
-        "CONTEST",
-        "CONTEXT",
-        "CONTROL",
-        "CONVERT",
-        "COOKING",
-        "CORRECT",
-        "COSTUME",
-        "COTTAGE",
-        "COUNCIL",
-        "COUNTRY",
-        "COURAGE",
-        "COVERED",
-        "CROWDED",
-        "CRUCIAL",
-        "CULTURE",
-        "CURRENT",
-        "CURTAIN",
-        "DANCING",
-        "DECLARE",
-        "DECLINE",
-        "DEFENCE",
-        "DELIGHT",
-        "DELIVER",
-        "DENTIST",
-        "DESERVE",
-        "DESPITE",
-        "DESTROY",
-        "DEVELOP",
-        "DIAGRAM",
-        "DIAMOND",
-        "DIGITAL",
-        "DISCUSS",
-        "DISEASE",
-        "DISLIKE",
-        "DISMISS",
-        "DISPLAY",
-        "DRAWING",
-        "DRESSED",
-        "DRIVING",
-        "EASTERN",
-        "ECONOMY",
-        "EDITION",
-        "EDUCATE",
-        "ELDERLY",
-        "ELEMENT",
-        "EMOTION",
-        "ENGAGED",
-        "ENHANCE",
-        "ENQUIRY",
-        "EPISODE",
-        "EQUALLY",
-        "ETHICAL",
-        "EVENING",
-        "EXACTLY",
-        "EXAMINE",
-        "EXAMPLE",
-        "EXCITED",
-        "EXPENSE",
-        "EXPLAIN",
-        "EXPLODE",
-        "EXPLORE",
-        "EXPRESS",
-        "EXTREME",
-        "FACTORY",
-        "FAILURE",
-        "FARMING",
-        "FASHION",
-        "FEATHER",
-        "FEATURE",
-        "FEELING",
-        "FICTION",
-        "FIFTEEN",
-        "FINALLY",
-        "FINANCE",
-        "FINDING",
-        "FIRSTLY",
-        "FISHING",
-        "FITNESS",
-        "FOLDING",
-        "FOREIGN",
-        "FOREVER",
-        "FORGIVE",
-        "FORWARD",
-        "FOUNDER",
-        "FREEDOM",
-        "FURTHER",
-        "GALLERY",
-        "GENERAL",
-        "GENUINE",
-        "GOODBYE",
-        "HAPPILY",
-        "HEADING",
-        "HEALTHY",
-        "HEARING",
-        "HEAVILY",
-        "HELPFUL",
-        "HERSELF",
-        "HIGHWAY",
-        "HIMSELF",
-        "HISTORY",
-        "HOLIDAY",
-        "HOUSING",
-        "HOWEVER",
-        "HUNDRED",
-        "HUNTING",
-        "HUSBAND",
-        "ILLEGAL",
-        "ILLNESS",
-        "IMAGINE",
-        "IMPRESS",
-        "IMPROVE",
-        "INCLUDE",
-        "INITIAL",
-        "INSTALL",
-        "INSTEAD",
-        "INTENSE",
-        "INVOLVE",
-        "ISOLATE",
-        "JANUARY",
-        "JOURNAL",
-        "JOURNEY",
-        "JUSTICE",
-        "JUSTIFY",
-        "KILLING",
-        "KINGDOM",
-        "KITCHEN",
-        "LARGELY",
-        "LEATHER",
-        "LECTURE",
-        "LIBRARY",
-        "LICENSE",
-        "LOYALTY",
-        "MACHINE",
-        "MAKE-UP",
-        "MANAGER",
-        "MARRIED",
-        "MASSIVE",
-        "MAXIMUM",
-        "MEANING",
-        "MEASURE",
-        "MEDICAL",
-        "MEETING",
-        "MENTION",
-        "MESSAGE",
-        "MILLION",
-        "MISSING",
-        "MISTAKE",
-        "MIXTURE",
-        "MONITOR",
-        "MORNING",
-        "MUSICAL",
-        "MYSTERY",
-        "NATURAL",
-        "NEITHER",
-        "NERVOUS",
-        "NETWORK",
-        "NOTHING",
-        "NOWHERE",
-        "NUCLEAR",
-        "O'CLOCK",
-        "OBSERVE",
-        "OBVIOUS",
-        "OCTOBER",
-        "OFFENCE",
-        "OFFICER",
-        "ONGOING",
-        "OPERATE",
-        "OPINION",
-        "OUTCOME",
-        "OUTDOOR",
-        "OUTLINE",
-        "OUTSIDE",
-        "OVERALL",
-        "PACKAGE",
-        "PAINFUL",
-        "PAINTER",
-        "PARKING",
-        "PARTNER",
-        "PASSAGE",
-        "PASSION",
-        "PATIENT",
-        "PATTERN",
-        "PAYMENT",
-        "PENSION",
-        "PERCENT",
-        "PERFECT",
-        "PERFORM",
-        "PERHAPS",
-        "PHYSICS",
-        "PICTURE",
-        "PLASTIC",
-        "POPULAR",
-        "POSSESS",
-        "POVERTY",
-        "PRECISE",
-        "PREPARE",
-        "PRESENT",
-        "PRETEND",
-        "PREVENT",
-        "PRIMARY",
-        "PRIVATE",
-        "PROBLEM",
-        "PROCESS",
-        "PRODUCE",
-        "PRODUCT",
-        "PROFILE",
-        "PROJECT",
-        "PROMISE",
-        "PROMOTE",
-        "PROPOSE",
-        "PROTECT",
-        "PROTEST",
-        "PROUDLY",
-        "PROVIDE",
-        "PUBLISH",
-        "PURPOSE",
-        "QUALIFY",
-        "QUALITY",
-        "QUARTER",
-        "QUICKLY",
-        "QUIETLY",
-        "RADICAL",
-        "RAPIDLY",
-        "REALISE",
-        "REALITY",
-        "RECEIVE",
-        "RECOVER",
-        "RECRUIT",
-        "REFLECT",
-        "REFUGEE",
-        "RELAXED",
-        "RELEASE",
-        "REMOVAL",
-        "REPLACE",
-        "REQUEST",
-        "REQUIRE",
-        "RESERVE",
-        "RESOLVE",
-        "RESPECT",
-        "RETIRED",
-        "REVERSE",
-        "ROUGHLY",
-        "ROUTINE",
-        "RUBBISH",
-        "SAILING",
-        "SATISFY",
-        "SCIENCE",
-        "SECTION",
-        "SERIOUS",
-        "SERVANT",
-        "SERVICE",
-        "SESSION",
-        "SETTING",
-        "SEVENTY",
-        "SEVERAL",
-        "SHALLOW",
-        "SHELTER",
-        "SHOCKED",
-        "SILENCE",
-        "SIMILAR",
-        "SINCERE",
-        "SINGING",
-        "SIXTEEN",
-        "SKILLED",
-        "SMOKING",
-        "SOCIETY",
-        "SOLDIER",
-        "SOMEHOW",
-        "SOMEONE",
-        "SPEAKER",
-        "SPECIAL",
-        "SPECIES",
-        "SPONSOR",
-        "STADIUM",
-        "STATION",
-        "STOMACH",
-        "STRANGE",
-        "STRETCH",
-        "STUDENT",
-        "SUBJECT",
-        "SUCCEED",
-        "SUCCESS",
-        "SUGGEST",
-        "SUMMARY",
-        "SUPPORT",
-        "SUPPOSE",
-        "SURFACE",
-        "SURGERY",
-        "SURVIVE",
-        "SUSPECT",
-        "SWEATER",
-        "SYMPTOM",
-        "T-SHIRT",
-        "TEACHER",
-        "TEENAGE",
-        "THEATRE",
-        "THERAPY",
-        "THIRSTY",
-        "THOUGHT",
-        "THROUGH",
-        "TONIGHT",
-        "TOTALLY",
-        "TOURISM",
-        "TOURIST",
-        "TOWARDS",
-        "TRAFFIC",
-        "TRAINER",
-        "TROUBLE",
-        "TUESDAY",
-        "TYPICAL",
-        "UNHAPPY",
-        "UNIFORM",
-        "UNKNOWN",
-        "UNUSUAL",
-        "UPWARDS",
-        "USUALLY",
-        "VARIETY",
-        "VARIOUS",
-        "VEHICLE",
-        "VERSION",
-        "VICTORY",
-        "VILLAGE",
-        "VIOLENT",
-        "VIRTUAL",
-        "VISITOR",
-        "VITAMIN",
-        "WARNING",
-        "WASHING",
-        "WEALTHY",
-        "WEATHER",
-        "WEBSITE",
-        "WEDDING",
-        "WEEKEND",
-        "WELCOME",
-        "WESTERN",
-        "WHEREAS",
-        "WHETHER",
-        "WHISPER",
-        "WILLING",
-        "WITHOUT",
-        "WORKING",
-        "WORRIED",
-        "WORSHIP",
-        "WRITING"
-    ],
-    "8": [
-        "ABSOLUTE",
-        "ACADEMIC",
-        "ACCIDENT",
-        "ACCURATE",
-        "ACTIVITY",
-        "ACTUALLY",
-        "ADDITION",
-        "ADVANCED",
-        "AIRCRAFT",
-        "ALTHOUGH",
-        "AMBITION",
-        "ANALYSIS",
-        "ANNOUNCE",
-        "ANNOYING",
-        "ANYTHING",
-        "ANYWHERE",
-        "APPARENT",
-        "APPROACH",
-        "APPROVAL",
-        "ARGUMENT",
-        "ARTISTIC",
-        "ATTITUDE",
-        "AUDIENCE",
-        "BACTERIA",
-        "BASEBALL",
-        "BATHROOM",
-        "BIRTHDAY",
-        "BUILDING",
-        "BUSINESS",
-        "CAMPAIGN",
-        "CAPACITY",
-        "CARELESS",
-        "CATEGORY",
-        "CEREMONY",
-        "CHAIRMAN",
-        "CHAMPION",
-        "CHEERFUL",
-        "CHEMICAL",
-        "CLOTHING",
-        "COLLAPSE",
-        "COLOURED",
-        "COMMONLY",
-        "COMPLAIN",
-        "COMPLETE",
-        "COMPUTER",
-        "CONCLUDE",
-        "CONFLICT",
-        "CONFUSED",
-        "CONSIDER",
-        "CONSTANT",
-        "CONSUMER",
-        "CONTINUE",
-        "CONTRACT",
-        "CONTRAST",
-        "CONVINCE",
-        "CREATION",
-        "CREATIVE",
-        "CREATURE",
-        "CRIMINAL",
-        "CRITICAL",
-        "CULTURAL",
-        "CUPBOARD",
-        "CURRENCY",
-        "CUSTOMER",
-        "DAUGHTER",
-        "DECEMBER",
-        "DECISION",
-        "DECORATE",
-        "DECREASE",
-        "DEFINITE",
-        "DELIVERY",
-        "DESCRIBE",
-        "DESIGNER",
-        "DETAILED",
-        "DIALOGUE",
-        "DIRECTLY",
-        "DIRECTOR",
-        "DISAGREE",
-        "DISASTER",
-        "DISCOUNT",
-        "DISCOVER",
-        "DISTANCE",
-        "DISTRICT",
-        "DIVISION",
-        "DIVORCED",
-        "DOCUMENT",
-        "DOMESTIC",
-        "DOMINATE",
-        "DOWNLOAD",
-        "DRAMATIC",
-        "ECONOMIC",
-        "EDUCATED",
-        "EIGHTEEN",
-        "ELECTION",
-        "ELECTRIC",
-        "ELEPHANT",
-        "EMPHASIS",
-        "EMPLOYEE",
-        "EMPLOYER",
-        "ENGINEER",
-        "ENORMOUS",
-        "ENTIRELY",
-        "ENTRANCE",
-        "ESTIMATE",
-        "EVALUATE",
-        "EVERYDAY",
-        "EVERYONE",
-        "EVIDENCE",
-        "EXCHANGE",
-        "EXCITING",
-        "EXERCISE",
-        "EXPECTED",
-        "EXTERNAL",
-        "FACILITY",
-        "FAMILIAR",
-        "FEBRUARY",
-        "FEEDBACK",
-        "FESTIVAL",
-        "FIGHTING",
-        "FLEXIBLE",
-        "FOOTBALL",
-        "FOURTEEN",
-        "FREEZING",
-        "FREQUENT",
-        "FRIENDLY",
-        "FUNCTION",
-        "GENERATE",
-        "GENEROUS",
-        "GRADUATE",
-        "GRATEFUL",
-        "HERITAGE",
-        "HESITATE",
-        "HISTORIC",
-        "HOMEWORK",
-        "HORRIBLE",
-        "HOSPITAL",
-        "IDENTIFY",
-        "IDENTITY",
-        "INCIDENT",
-        "INCLUDED",
-        "INCREASE",
-        "INDICATE",
-        "INDUSTRY",
-        "INFORMAL",
-        "INNOCENT",
-        "INSTANCE",
-        "INTEREST",
-        "INTERNAL",
-        "INTERNET",
-        "INVESTOR",
-        "INVOLVED",
-        "KEYBOARD",
-        "LANGUAGE",
-        "LAUGHTER",
-        "LOCATION",
-        "MAGAZINE",
-        "MAINTAIN",
-        "MAJORITY",
-        "MATERIAL",
-        "MEDICINE",
-        "MIDNIGHT",
-        "MILITARY",
-        "MINISTER",
-        "MINISTRY",
-        "MINORITY",
-        "MOUNTAIN",
-        "MOVEMENT",
-        "MULTIPLE",
-        "MUSICIAN",
-        "NATIONAL",
-        "NEGATIVE",
-        "NORMALLY",
-        "NORTHERN",
-        "NOVEMBER",
-        "NUMEROUS",
-        "OCCASION",
-        "OFFICIAL",
-        "OPPONENT",
-        "OPPOSITE",
-        "ORDINARY",
-        "ORGANISE",
-        "OVERCOME",
-        "OVERSEAS",
-        "PAINTING",
-        "PASSPORT",
-        "PATIENCE",
-        "PEACEFUL",
-        "PERSONAL",
-        "PERSUADE",
-        "PHYSICAL",
-        "PLANNING",
-        "PLATFORM",
-        "PLEASANT",
-        "PLEASURE",
-        "POLITICS",
-        "POSITION",
-        "POSITIVE",
-        "POSSIBLE",
-        "POSSIBLY",
-        "POWERFUL",
-        "PRACTICE",
-        "PREGNANT",
-        "PRESENCE",
-        "PRESSURE",
-        "PREVIOUS",
-        "PRINCESS",
-        "PRIORITY",
-        "PRISONER",
-        "PROBABLY",
-        "PRODUCER",
-        "PROGRESS",
-        "PROPERLY",
-        "PROPERTY",
-        "PROPOSAL",
-        "PROSPECT",
-        "PROVIDED",
-        "PROVIDER",
-        "PROVINCE",
-        "PUBLICLY",
-        "PURCHASE",
-        "QUESTION",
-        "REACTION",
-        "RECENTLY",
-        "RECOVERY",
-        "REGIONAL",
-        "REGISTER",
-        "RELATION",
-        "RELATIVE",
-        "RELAXING",
-        "RELEVANT",
-        "RELIGION",
-        "REMEMBER",
-        "REPEATED",
-        "REPORTER",
-        "REPUBLIC",
-        "RESEARCH",
-        "RESIDENT",
-        "RESOURCE",
-        "RESPONSE",
-        "ROMANTIC",
-        "SANDWICH",
-        "SATURDAY",
-        "SCHEDULE",
-        "SECONDLY",
-        "SECURITY",
-        "SENSIBLE",
-        "SENTENCE",
-        "SEPARATE",
-        "SEQUENCE",
-        "SHOOTING",
-        "SHOPPING",
-        "SHOULDER",
-        "SLIGHTLY",
-        "SOFTWARE",
-        "SOLUTION",
-        "SOMEBODY",
-        "SOMETIME",
-        "SOMEWHAT",
-        "SOUTHERN",
-        "SPECIFIC",
-        "SPELLING",
-        "SPENDING",
-        "STANDARD",
-        "STRAIGHT",
-        "STRANGER",
-        "STRATEGY",
-        "STRENGTH",
-        "STRONGLY",
-        "STRUGGLE",
-        "SUDDENLY",
-        "SUITABLE",
-        "SURPRISE",
-        "SURROUND",
-        "SWIMMING",
-        "SYMPATHY",
-        "TALENTED",
-        "TEACHING",
-        "TEENAGER",
-        "TERRIBLE",
-        "THINKING",
-        "THIRTEEN",
-        "THOUSAND",
-        "THREATEN",
-        "THURSDAY",
-        "TOGETHER",
-        "TOMORROW",
-        "TRAINING",
-        "TRANSFER",
-        "TROPICAL",
-        "TROUSERS",
-        "UMBRELLA",
-        "UNIVERSE",
-        "UNLIKELY",
-        "UPSTAIRS",
-        "VACATION",
-        "VALUABLE",
-        "VIOLENCE",
-        "WEAKNESS",
-        "WHATEVER",
-        "WHENEVER",
-        "WHEREVER",
-        "WILDLIFE",
-        "YOURSELF"
-    ],
-    "9": [
-        "ACCOMPANY",
-        "ACCORDING",
-        "ADVANTAGE",
-        "ADVENTURE",
-        "ADVERTISE",
-        "AFTERNOON",
-        "AGREEMENT",
-        "ALCOHOLIC",
-        "AMBITIOUS",
-        "APARTMENT",
-        "APOLOGIZE",
-        "ARCHITECT",
-        "ASSISTANT",
-        "ASSOCIATE",
-        "ATTENTION",
-        "AUTHORITY",
-        "AVAILABLE",
-        "BACKWARDS",
-        "BASICALLY",
-        "BEAUTIFUL",
-        "BEGINNING",
-        "BEHAVIOUR",
-        "BOYFRIEND",
-        "BREAKFAST",
-        "BREATHING",
-        "BRILLIANT",
-        "BROADCAST",
-        "CALCULATE",
-        "CANDIDATE",
-        "CAREFULLY",
-        "CELEBRATE",
-        "CELEBRITY",
-        "CERTAINLY",
-        "CHALLENGE",
-        "CHARACTER",
-        "CHEMISTRY",
-        "CHILDHOOD",
-        "CHOCOLATE",
-        "CIGARETTE",
-        "CLASSICAL",
-        "CLASSROOM",
-        "COLLEAGUE",
-        "COMMITTEE",
-        "COMMUNITY",
-        "COMPLAINT",
-        "COMPONENT",
-        "CONCERNED",
-        "CONDITION",
-        "CONFIDENT",
-        "CONFUSING",
-        "CONNECTED",
-        "CONSCIOUS",
-        "CONSTRUCT",
-        "CONTAINER",
-        "CONTINENT",
-        "CONVINCED",
-        "CORPORATE",
-        "CORRECTLY",
-        "CRITERION",
-        "CRITICISM",
-        "CRITICIZE",
-        "CURRENTLY",
-        "DANGEROUS",
-        "DELICIOUS",
-        "DELIGHTED",
-        "DEPARTURE",
-        "DEPRESSED",
-        "DESPERATE",
-        "DETECTIVE",
-        "DETERMINE",
-        "DIFFERENT",
-        "DIFFICULT",
-        "DIRECTION",
-        "DISAPPEAR",
-        "DISCOVERY",
-        "DISHONEST",
-        "DOWNWARDS",
-        "EDUCATION",
-        "EFFECTIVE",
-        "EFFICIENT",
-        "ELSEWHERE",
-        "EMERGENCY",
-        "EMOTIONAL",
-        "EMPHASIZE",
-        "ENCOUNTER",
-        "ENCOURAGE",
-        "ENTERTAIN",
-        "EQUIPMENT",
-        "ESSENTIAL",
-        "ESTABLISH",
-        "EVERYBODY",
-        "EXCELLENT",
-        "EXECUTIVE",
-        "EXISTENCE",
-        "EXPENSIVE",
-        "EXPLOSION",
-        "EXTREMELY",
-        "FANTASTIC",
-        "FAVOURITE",
-        "FINANCIAL",
-        "FOLLOWING",
-        "FREQUENCY",
-        "FRUSTRATE",
-        "FURNITURE",
-        "GENERALLY",
-        "GENTLEMAN",
-        "GEOGRAPHY",
-        "GRADUALLY",
-        "GUARANTEE",
-        "HIGHLIGHT",
-        "HOUSEHOLD",
-        "IMMEDIATE",
-        "IMPATIENT",
-        "IMPORTANT",
-        "IMPRESSED",
-        "INCLUDING",
-        "INFECTION",
-        "INFLUENCE",
-        "INITIALLY",
-        "INSURANCE",
-        "INTENTION",
-        "INTERPRET",
-        "INTERVIEW",
-        "INTRODUCE",
-        "INVENTION",
-        "JEWELLERY",
-        "JUDGEMENT",
-        "KNOWLEDGE",
-        "LANDSCAPE",
-        "LIFESTYLE",
-        "MARKETING",
-        "MEANWHILE",
-        "NATURALLY",
-        "NECESSARY",
-        "NEGOTIATE",
-        "NEIGHBOUR",
-        "NEWSPAPER",
-        "OBJECTIVE",
-        "OBVIOUSLY",
-        "OPERATION",
-        "OTHERWISE",
-        "OURSELVES",
-        "PARAGRAPH",
-        "PASSENGER",
-        "PERFECTLY",
-        "PERMANENT",
-        "PERSONNEL",
-        "POLITICAL",
-        "POLLUTION",
-        "POTENTIAL",
-        "PRACTICAL",
-        "PRECISELY",
-        "PRESIDENT",
-        "PRINCIPAL",
-        "PRINCIPLE",
-        "PRIVATELY",
-        "PROCEDURE",
-        "PROFESSOR",
-        "PROGRAMME",
-        "PROMOTION",
-        "PROVISION",
-        "REALISTIC",
-        "RECEPTION",
-        "RECOGNISE",
-        "RECOMMEND",
-        "RECORDING",
-        "REDUCTION",
-        "REFERENCE",
-        "REGULARLY",
-        "RELIGIOUS",
-        "REPRESENT",
-        "SATELLITE",
-        "SATISFIED",
-        "SCIENTIST",
-        "SCULPTURE",
-        "SECONDARY",
-        "SECRETARY",
-        "SELECTION",
-        "SENSITIVE",
-        "SEPTEMBER",
-        "SERIOUSLY",
-        "SEVENTEEN",
-        "SIMILARLY",
-        "SITUATION",
-        "SOMETHING",
-        "SOMETIMES",
-        "SOMEWHERE",
-        "SPIRITUAL",
-        "STATEMENT",
-        "STATISTIC",
-        "STRUCTURE",
-        "SUBSTANCE",
-        "SUMMARIZE",
-        "SUPPORTER",
-        "SURPRISED",
-        "TECHNICAL",
-        "TECHNIQUE",
-        "TELEPHONE",
-        "TEMPORARY",
-        "THEREFORE",
-        "TRADITION",
-        "TRANSFORM",
-        "TRANSLATE",
-        "TRANSPORT",
-        "TRAVELLER",
-        "TREATMENT",
-        "TYPICALLY",
-        "UNDERWEAR",
-        "VEGETABLE",
-        "VOLUNTEER",
-        "WEDNESDAY",
-        "WONDERFUL",
-        "YESTERDAY"
-    ],
-    "10": [
-        "ABSOLUTELY",
-        "ACCEPTABLE",
-        "ADDITIONAL",
-        "AFTERWARDS",
-        "AGGRESSIVE",
-        "APPARENTLY",
-        "APPEARANCE",
-        "APPRECIATE",
-        "ARTIFICIAL",
-        "ASSESSMENT",
-        "ASSIGNMENT",
-        "ASSOCIATED",
-        "ATMOSPHERE",
-        "ATTRACTION",
-        "ATTRACTIVE",
-        "BACKGROUND",
-        "BASKETBALL",
-        "COLLECTION",
-        "COMMERCIAL",
-        "COMMISSION",
-        "COMMITMENT",
-        "COMPARISON",
-        "COMPETITOR",
-        "COMPLETELY",
-        "CONCLUSION",
-        "CONFERENCE",
-        "CONFIDENCE",
-        "CONNECTION",
-        "CONSISTENT",
-        "CONSTANTLY",
-        "CONTINUOUS",
-        "CONTRIBUTE",
-        "CONVENIENT",
-        "DECORATION",
-        "DEFINITELY",
-        "DEFINITION",
-        "DELIBERATE",
-        "DEPARTMENT",
-        "DEPRESSING",
-        "DETERMINED",
-        "DICTIONARY",
-        "DIFFERENCE",
-        "DIFFICULTY",
-        "DISCIPLINE",
-        "DISCUSSION",
-        "DISTRIBUTE",
-        "DOWNSTAIRS",
-        "EARTHQUAKE",
-        "ELECTRICAL",
-        "ELECTRONIC",
-        "EMPLOYMENT",
-        "ENTHUSIASM",
-        "ESPECIALLY",
-        "EVENTUALLY",
-        "EVERYTHING",
-        "EVERYWHERE",
-        "EXCITEMENT",
-        "EXHIBITION",
-        "EXPEDITION",
-        "EXPERIENCE",
-        "EXPERIMENT",
-        "EXPRESSION",
-        "FOUNDATION",
-        "FREQUENTLY",
-        "FRIENDSHIP",
-        "FRUSTRATED",
-        "GENERATION",
-        "GIRLFRIEND",
-        "GOVERNMENT",
-        "HELICOPTER",
-        "HISTORICAL",
-        "ILLUSTRATE",
-        "IMPOSSIBLE",
-        "IMPRESSION",
-        "IMPRESSIVE",
-        "INCREDIBLE",
-        "INCREDIBLY",
-        "INDICATION",
-        "INDIVIDUAL",
-        "INDUSTRIAL",
-        "INEVITABLE",
-        "INNOVATION",
-        "INSTRUMENT",
-        "INTERESTED",
-        "INVESTMENT",
-        "INVITATION",
-        "JOURNALIST",
-        "LEADERSHIP",
-        "LITERATURE",
-        "MANAGEMENT",
-        "MOTORCYCLE",
-        "OFFICIALLY",
-        "PARLIAMENT",
-        "PARTICULAR",
-        "PERMISSION",
-        "PHOTOGRAPH",
-        "PHYSICALLY",
-        "POLITICIAN",
-        "POPULATION",
-        "PREFERENCE",
-        "PREVIOUSLY",
-        "PRODUCTION",
-        "PROFESSION",
-        "PROPORTION",
-        "PROTECTION",
-        "PSYCHOLOGY",
-        "PUNISHMENT",
-        "REASONABLE",
-        "REASONABLY",
-        "REFLECTION",
-        "REGULATION",
-        "RELATIVELY",
-        "REMARKABLE",
-        "REPEATEDLY",
-        "REPUTATION",
-        "RESEARCHER",
-        "RESOLUTION",
-        "RESTAURANT",
-        "REVELATION",
-        "REVOLUTION",
-        "SCIENTIFIC",
-        "SMARTPHONE",
-        "SPECIALIST",
-        "SUCCESSFUL",
-        "SUGGESTION",
-        "SURPRISING",
-        "TECHNOLOGY",
-        "TELEVISION",
-        "THEMSELVES",
-        "THROUGHOUT",
-        "TRANSITION",
-        "ULTIMATELY",
-        "UNDERSTAND",
-        "UNEMPLOYED",
-        "UNEXPECTED",
-        "UNIVERSITY",
-        "UNPLEASANT"
-    ],
-    "11": [
-        "ACHIEVEMENT",
-        "ACKNOWLEDGE",
-        "ADVERTISING",
-        "ALTERNATIVE",
-        "ANNIVERSARY",
-        "APPLICATION",
-        "APPOINTMENT",
-        "APPROPRIATE",
-        "ARRANGEMENT",
-        "ASSOCIATION",
-        "BUSINESSMAN",
-        "CELEBRATION",
-        "COMBINATION",
-        "COMFORTABLE",
-        "COMMUNICATE",
-        "COMPETITION",
-        "COMPETITIVE",
-        "COMPLICATED",
-        "CONCENTRATE",
-        "CONSEQUENCE",
-        "COUNTRYSIDE",
-        "DEMONSTRATE",
-        "DESCRIPTION",
-        "DESTINATION",
-        "DEVELOPMENT",
-        "DIFFERENTLY",
-        "DOCUMENTARY",
-        "EDUCATIONAL",
-        "EFFECTIVELY",
-        "ELECTRICITY",
-        "EMBARRASSED",
-        "ENGINEERING",
-        "ENVIRONMENT",
-        "EXAMINATION",
-        "EXPECTATION",
-        "EXPERIENCED",
-        "EXPLANATION",
-        "EXPLORATION",
-        "FASCINATING",
-        "FASHIONABLE",
-        "FRUSTRATING",
-        "FUNDAMENTAL",
-        "GRANDFATHER",
-        "GRANDMOTHER",
-        "IMMEDIATELY",
-        "IMPROVEMENT",
-        "INDEPENDENT",
-        "INFORMATION",
-        "INSTITUTION",
-        "INSTRUCTION",
-        "INTELLIGENT",
-        "INTERESTING",
-        "INVESTIGATE",
-        "INVOLVEMENT",
-        "LEGISLATION",
-        "NEGOTIATION",
-        "OBSERVATION",
-        "OPPORTUNITY",
-        "OUTSTANDING",
-        "PARTICIPANT",
-        "PARTICIPATE",
-        "PERFORMANCE",
-        "PERSONALITY",
-        "PERSPECTIVE",
-        "PHOTOGRAPHY",
-        "POLITICALLY",
-        "POSSIBILITY",
-        "POTENTIALLY",
-        "PRACTICALLY",
-        "PREPARATION",
-        "PUBLICATION",
-        "RECOGNITION",
-        "RECRUITMENT",
-        "REQUIREMENT",
-        "RESERVATION",
-        "RESPONSIBLE",
-        "SIGNIFICANT",
-        "SUPERMARKET",
-        "SURROUNDING",
-        "TEMPERATURE",
-        "TRADITIONAL",
-        "TRANSLATION",
-        "UNCONSCIOUS",
-        "UNDERGROUND",
-        "UNNECESSARY"
-    ],
-    "12": [
-        "ANNOUNCEMENT",
-        "ARCHITECTURE",
-        "CIRCUMSTANCE",
-        "CONSERVATIVE",
-        "CONSTRUCTION",
-        "CONTEMPORARY",
-        "CONTRIBUTION",
-        "CONVERSATION",
-        "DELIBERATELY",
-        "DISADVANTAGE",
-        "DISAPPOINTED",
-        "DISTRIBUTION",
-        "EMBARRASSING",
-        "ENTHUSIASTIC",
-        "INCREASINGLY",
-        "INTRODUCTION",
-        "NEVERTHELESS",
-        "OCCASIONALLY",
-        "ORGANISATION",
-        "PARTICULARLY",
-        "PHOTOGRAPHER",
-        "PRESCRIPTION",
-        "PRESIDENTIAL",
-        "PROFESSIONAL",
-        "REFRIGERATOR",
-        "RELATIONSHIP",
-        "REPRODUCTION",
-        "SPECIFICALLY",
-        "SUCCESSFULLY",
-        "UNEMPLOYMENT"
-    ],
-    "13": [
-        "ACCOMMODATION",
-        "ADVERTISEMENT",
-        "APPROXIMATELY",
-        "COMMUNICATION",
-        "CONCENTRATION",
-        "CONSIDERATION",
-        "DISAPPOINTING",
-        "ENTERTAINMENT",
-        "ENVIRONMENTAL",
-        "EXTRAORDINARY",
-        "INTERNATIONAL",
-        "INVESTIGATION",
-        "PSYCHOLOGICAL",
-        "QUALIFICATION",
-        "SIGNIFICANTLY",
-        "UNCOMFORTABLE",
-        "UNDERSTANDING",
-        "UNFORTUNATELY"
-    ],
-    "14": [
-        "ADMINISTRATION",
-        "CHARACTERISTIC",
-        "RECOMMENDATION",
-        "REPRESENTATIVE",
-        "RESPONSIBILITY"
-    ]
+        .new-game{
+            height: 20px;
+            width: 100px;
+        }
+        .open-instructions{
+            height: 20px;
+            width: 150px;
+        }
+        .give-up-button{
+            height: 20px;
+            width: 100px;
+        }
+        .modal {
+            padding-top: 10px; /* Location of the box */
+        }
+        .modal-content {
+            padding: 20px;
+            font-size: 12px;
+        }
+    }
+    @media (min-width:480px)  { /* smartphones, Android phones, landscape iPhone */ }
+    @media (min-width:801px)  { /* tablet, landscape iPad, lo-res laptops ands desktops */
+        td.grid-cell {
+            width: 40px;
+            height: 40px;
+        }
+        .new-game{
+            height: 20px;
+            width: 100px;
+        }
+        .open-instructions{
+            height: 20px;
+            width: 150px;
+        }
+        .give-up-button{
+            height: 20px;
+            width: 100px;
+        }
+        .modal-content {
+            padding: 20px;
+            width: 700px;
+        }
+    }
+
+    table{
+        table-layout: fixed;
+        text-align: center;
+    }
+    table.guess{
+        border-spacing: 10px;
+    }
+    td{
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+    .word-index {
+        font-size: 10px;
+        color: #666;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .grid-notUsed {
+        background-color: #ccc;
+    }
+    table.game-table {
+        border-collapse: collapse;
+        margin: auto;
+        border: 1px solid black;
+        display: inline-block;
+        vertical-align: top;
+    }
+    #crossword-hint-horizontal {
+        display: inline-block;
+        vertical-align: top;
+        width: 200px;
+        word-wrap: break-word;
+    }
+    #crossword-hint-vertical {
+        display: inline-block;
+        vertical-align: top;
+        width: 200px;
+        word-wrap: break-word;
+    }
+    .container {
+        display: inline-block;
+        width: 100%;
+    }
+
+
+    td.grid-cell {
+        border: 1px solid black;
+        position: relative;
+    }
+
+    .new-game{
+        outline: thin solid black;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        background-color: grey;
+        color: white;
+    }
+    .open-instructions{
+        outline: thin solid black;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        background-color: grey;
+        color: white;
+    }
+    .give-up-button{
+        outline: thin solid black;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        background-color: grey;
+        color: white;
+    }
+
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+    }
+
+    /* The Close Button */
+    .modal-close {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .modal-close:hover,
+    .modal-close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+</style>
+<script src="CrossWordGame.js"></script>
+<script> 
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+var key_event = -1;
+var gameState=0; //0 Over, 1 InProgress, 2 lock input
+var targetWord;
+var grid = new Array(15).fill(null).map(() => new Array(15).fill(null));
+ 
+$(document).ready(function(){
+    document.onkeydown = function(evt) {
+        evt = evt || window.event;
+        if (65 <= evt.keyCode && evt.keyCode <=90) {
+            key_event = evt.keyCode
+        }
+        if (8 == evt.keyCode) {//backspace
+            key_event = 8
+        }
+        if (13 == evt.keyCode) {//enter key
+            key_event = 13
+        }
+        //console.log(key_event)
     };
 
-    var placeWord = function(grid, word, row, col, direction) {
-        if (direction == 'horizontal') {
-            for (var i = 0; i < word.length; i++) {
-                grid[row][col + i] = word[i];
-            }
-        } else {
-            for (var i = 0; i < word.length; i++) {
-                grid[row + i][col] = word[i];
-            }
-        }
-    };
-
-    var findIntersection = function(grid, word, direction) {
-        var randomIndex = Math.floor(Math.random() * word.length);
-        var attempts = 0;
-        while (attempts < word.length) {
-            var randomLetter = word[randomIndex];
-            for (var i = 0; i < grid.length; i++) {
-                for (var j = 0; j < grid[i].length; j++) {
-                    if (grid[i][j] === randomLetter) {
-                        var placement = null;
-                        if (direction === 'horizontal') {
-                            placement = tryHorizontalPlacement(grid, word, i, j-randomIndex);
-                        } else {
-                            placement = tryVerticalPlacement(grid, word, i-randomIndex, j);
-                        }
-                        if (placement !== null) {
-                            return placement;
-                        }
-                    }
-                }
-            }
-            randomIndex = (randomIndex + 1) % word.length;
-            attempts++;
-        }
-        return null;
-    };
-
-    var tryHorizontalPlacement = function(grid, word, row, col) {
-        var wordLength = word.length;
-        var gridHeight = grid.length;
-        var gridWidth = grid[0].length;
-
-        // Check if the word can fit in the grid horizontally
-        if (col + wordLength > gridWidth || col < 0) {
-            return null;
-        }
-
-        // Crawl left and right to check if cells are empty or have the same value
-        for (var i = 0; i < wordLength; i++) {
-            if (grid[row][col + i] !== null && grid[row][col + i] !== word[i]) {
-                return null;
-            }
-
-            // Check above and below if cell is empty
-            if (grid[row][col + i] === null) {
-                if (row - 1 >= 0 && grid[row - 1][col + i] !== null) {
-                    return null;
-                }
-                if (row + 1 < gridHeight && grid[row + 1][col + i] !== null) {
-                    return null;
-                }
-            }
-        }
-
-        // Check edge cases
-        if (col - 1 >= 0 && grid[row][col - 1] !== null) {
-            return null;
-        }
-        if (col + wordLength < gridWidth && grid[row][col + wordLength] !== null) {
-            return null;
-        }
-
-        // If all checks pass, return the placement
-        return {
-            row: row,
-            col: col,
-            direction: 'horizontal'
-        };
-    };
-
-    var tryVerticalPlacement = function(grid, word, row, col) {
-        var wordLength = word.length;
-        var gridHeight = grid.length;
-        var gridWidth = grid[0].length;
-
-        // Check if the word can fit in the grid vertically
-        if (row + wordLength > gridHeight || row < 0) {
-            return null;
-        }
-
-        // Crawl up and down to check if cells are empty or have the same value
-        for (var i = 0; i < wordLength; i++) {
-            if (grid[row + i][col] !== null && grid[row + i][col] !== word[i]) {
-                return null;
-            }
-
-            // Check left and right if cell is empty
-            if (grid[row + i][col] === null) {
-                if (col - 1 >= 0 && grid[row + i][col - 1] !== null) {
-                    return null;
-                }
-                if (col + 1 < gridWidth && grid[row + i][col + 1] !== null) {
-                    return null;
-                }
-            }
-        }
-
-        // Check edge cases
-        if (row - 1 >= 0 && grid[row - 1][col] !== null) {
-            return null;
-        }
-        if (row + wordLength < gridHeight && grid[row + wordLength][col] !== null) {
-            return null;
-        }
-
-        // If all checks pass, return the placement
-        return {
-            row: row,
-            col: col,
-            direction: 'vertical'
-        };
-    };
-    /**
-     * 
-     * @param {*} grid 
-     * @param {*} wordList 
-     * @param {*} maxWords 
-     * @param {*} wordCount 
-     * @param {*} currentWordRunningLength  - my current word length
-     * @param {*} maxWordLength 
-     * @param {*} avgWordLength 
-     * @returns 
-     */
-    var prepGridWord = function(grid, wordList, maxWords, wordCount, currentWordRunningLength, maxWordLength, avgWordLength) {
-        if (wordCount >= maxWords) {
-            return { grid: grid, words: wordList };
-        }
-
-        var direction = 'horizontal' 
-        if (wordCount % 2 == 1){direction = 'vertical'}
-        var newGrid = grid.map(row => row.slice()); // Create a copy of the grid
-        var maximumWordSelectionAttempt = 100;
-        for (var i = 0; i <maximumWordSelectionAttempt ; i++) {
-            var augmentedMaxWordLength = maxWordLength
-            /**
-             * Augment the max word length based on the number of iterations, as we continue to attempt (and fail to place)
-             * We will decrease the maximum word length slowly until it gets down to 3 length to increase the chance of getting a word
-             */
-            if (i/maximumWordSelectionAttempt > 0.5){
-                var remainingIterations = i
-                var decrementPercentage = remainingIterations / maximumWordSelectionAttempt
-                augmentedMaxWordLength *= (1 - decrementPercentage)
-                augmentedMaxWordLength = Math.max(3,augmentedMaxWordLength) //Cap it at 3 if we are augmenting, 3 has the highest chance of getting a word to place.
-            }
-            var word = chooseWord(dictofWords, wordCount/maxWords, currentWordRunningLength/maxWords, augmentedMaxWordLength, avgWordLength, wordList);
-
-            var intersection = findIntersection(newGrid, word, direction);
-            if (intersection) {
-                placeWord(newGrid, word, intersection.row, intersection.col, direction);
-                var wordInfo = {
-                    word: word,
-                    row: intersection.row,
-                    col: intersection.col,
-                    direction: direction
-                };
-                return prepGridWord(newGrid, wordList.concat([wordInfo]), maxWords, wordCount +1, currentWordRunningLength + word.length, maxWordLength, avgWordLength);
-            // } else {
-            //     return prepGridWord(grid, wordList, maxWords, wordCount, currentWordRunningLength, maxWordLength, avgWordLength); // Try again with the original grid
-            }
-        }
-        //failsafe
-        return { grid: grid, words: wordList };
-    };
-
-/**
- * @description
- * Choose a word from the given dictionary of words, attempting to vary the word length
- * over the course of the game.
- * @param {Object} dictofWords - A dictionary of words, where each key is a word length
- * and the value is an array of words of that length.
- * @param {Number} curWordPercentOfMaxWords - What word are we at selecting, are we selecting word 2 out of 5?
- * @param {Number} currentWordAverage - The average word length of all the words placed so far.
- * @param {Number} maxWordLength - The maximum word length.
- * @param {Number} avgWordLength - The average word length in the game.
- * @return {String} The chosen word.
- */
-    var chooseWord = function(dictofWords, curWordPercentOfMaxWords, currentWordAverage, maxWordLength, avgWordLength, wordList) {
-        var targetWordLength;
-
-        if (curWordPercentOfMaxWords < 0.5) {
-            targetWordLength = Math.floor(Math.random() * (maxWordLength - avgWordLength + 1)) + avgWordLength;
-        } else {
-            var diff = currentWordAverage - avgWordLength;
-            targetWordLength = Math.floor(Math.min(Math.max(avgWordLength - diff, avgWordLength), maxWordLength));
-        }
-
-        
-        // Select a word from the target word length
-        var words = dictofWords[targetWordLength];
-        var x = Math.floor(Math.random() * words.length)
-        var chosenWord = words[x];
-
-        if (Array.isArray(wordList)) {
-            if (wordList.some(wordInfo => wordInfo.word === chosenWord)) {
-                // If the word is already in the list, choose a new word
-                return chooseWord(dictofWords, curWordPercentOfMaxWords, currentWordAverage, maxWordLength, avgWordLength, wordList);
-            }
-        }
-
-        return chosenWord;
-    };
-        
-    var prepGrid = function(grid, maxWords, avgWordLength, anchorWordLength, maxWordLength) {
-        var anchorWord = chooseWord(dictofWords, 1, 0, anchorWordLength, anchorWordLength);
-
-        // Place the central horizontal word
-        var middleRow = Math.floor(grid.length / 2);
-        var middleCol = Math.floor((grid[0].length - anchorWord.length) / 2);
-        placeWord(grid, anchorWord, middleRow, middleCol, 'horizontal');
-
-        var wordInfo = {
-            word: anchorWord,
-            row: middleRow,
-            col: middleCol,
-            direction: 'horizontal'
-        };
-        var result = prepGridWord(grid, [wordInfo], maxWords, 1, anchorWordLength, maxWordLength, avgWordLength);
-        //result looks like  { grid: grid, words: wordList }
-        return result;
-    };
-
-
-    var getDifficulty = function(level) {
-        var difficulty = [
-        { maxWords: 2, avgWordLength: 3, anchorWordLength: 3, maxWordLength: 3 }, // Easy
-        { maxWords: 3, avgWordLength: 3, anchorWordLength: 3, maxWordLength: 3 }, // Easy
-        { maxWords: 4, avgWordLength: 4, anchorWordLength: 4, maxWordLength: 3 }, // Easy
-        { maxWords: 5, avgWordLength: 4, anchorWordLength: 5, maxWordLength: 5 }, // Medium
-        { maxWords: 6, avgWordLength: 5, anchorWordLength: 6, maxWordLength: 5 }, // Hard
-        { maxWords: 7, avgWordLength: 5, anchorWordLength: 7, maxWordLength: 6 }, // Expert
-        { maxWords: 8, avgWordLength: 5, anchorWordLength: 8, maxWordLength: 7 }, // Master
-        { maxWords: 12, avgWordLength: 5, anchorWordLength: 8, maxWordLength: 7 }, // Master
-        { maxWords: 14, avgWordLength: 5, anchorWordLength: 8, maxWordLength: 7 }, // Master
-        { maxWords: 30, avgWordLength: 5, anchorWordLength: 8, maxWordLength: 7 } // Testing
-        ];
-        if (level > difficulty.length - 1) {
-            level = difficulty.length - 1;
-        }
-        return difficulty[level];
-    };
-
-    var giveUpGrid = function() {
-        console.log('hi')
-        for (var i = 0; i < gameContent.words.length; i++){
-            fillWordInGrid(gameContent.words[i].word, gameContent);
-        }
+    var gameOverWin = function(){
         gameState=0
+        alert('Next Round!')
+        //Yes No then startGame()
+    }
+   
+    var gameLoop = function(){
+        if (65 <= key_event && key_event <= 90){
+            alphabet_letter_input(String.fromCharCode(key_event))
+        }
+        else if (8 == key_event) {//backspace
+            deleteLetter()
+        }
+        else if (13 == key_event) {//enter key
+            submit()
+        }
+        //console.log('Game running')
+        key_event=-1
+
+        setTimeout(gameLoop, 20);
+    }
+ 
+    $(".new-game").click(function(){
+        startGame()
+    })
+    
+    $('.give-up-button').click(function() {
+        console.log('giveUpButton')
+        giveUpGrid();
+    });
+ 
+    $(".submit").click(function(){
+        submit()
+    });
+ 
+
+    var open_instructions = function(){
+        $('#instructions').show()
     }
 
-    var fillWordInGrid = function(word, gameContent) {
-        var gameTable = $('#game-table');
-        var wordInfo;
-        var wordIndex;
-        for (var i = 0; i < gameContent.words.length; i++) {
-            if (word === gameContent.words[i].word) {
-                wordInfo = gameContent.words[i];
-                wordIndex=i+1
-                break
-            }
-        }
-        var row = wordInfo.row;
-        var col = wordInfo.col;
-        var direction = wordInfo.direction;
+    $(".modal-close").click(function(){
+        console.log('hideclose')
+        $('#instructions').hide()
+    });
+    $(".modal-content").click(function(e){
+        e.stopPropagation();
+    })
+    $(".modal").click(function(){
+        console.log('hidenmodal')
+        $('#instructions').hide()
+    });
+    $(".open-instructions").click(function(){
+        open_instructions()
+    });
 
-        if (direction === 'horizontal') {
-            for (var i = 0; i < word.length; i++) {
-                var cell = gameTable.find(`tr:eq(${row}) td:eq(${col + i})`);
-                if (i==0){
-                    if (cell.text() === "") {
-                        cell.html(`<span class="word-index">${wordIndex}</span>${word[i]}`);
-                    }else{
-                        var existingIndex = cell.find('.word-index');
-                        if (existingIndex.length > 0) {
-                            existingIndex.html(`${existingIndex.text()},${wordIndex}`);
-                        } else {
-                            cell.html(`<span class="word-index">${wordIndex}</span>${word[i]}`);
-                        }
-                    }
-                }else{
-                    if (cell.text() === "") {
-                        cell.text(`${word[i]}`);
-                    }
-                }
-            }
-        } else if (direction === 'vertical') {
-            for (var i = 0; i < word.length; i++) {
-                var cell = gameTable.find(`tr:eq(${row + i}) td:eq(${col})`);
-                if (i==0){
-                    if (cell.text() === "") {
-                        cell.html(`<span class="word-index">${wordIndex}</span>${word[i]}`);
-                    }else{
-                        var existingIndex = cell.find('.word-index');
-                        if (existingIndex.length > 0) {
-                            existingIndex.html(`${existingIndex.text()},${wordIndex}`);
-                        } else {
-                            cell.html(`<span class="word-index">${wordIndex}</span>${word[i]}`);
-                        }
-                    }
-                }else{
-                    if (cell.text() === "") {
-                        cell.text(`${word[i]}`);
-                    }
-                }
-            }
-        }
-    }
+    startGame()
 
-    var crosswordHints = function(gameContent) {
-        var verticalHints = $('#crossword-hint-vertical');
-        var horizontalHints = $('#crossword-hint-horizontal');
-        verticalHints.empty();
-        horizontalHints.empty();
+    //Instructions Open
+    open_instructions()
 
-        for (var i = 0; i < gameContent.words.length; i++) {
-            var word = gameContent.words[i];
-            var wordIndex = i + 1;
-            var wordText = word.word.toUpperCase();
-
-            if (word.direction === 'vertical') {
-                verticalHints.append(`<p>${wordIndex} - ${wordText}</p>`);
-            } else if (word.direction === 'horizontal') {
-                horizontalHints.append(`<p>${wordIndex} - ${wordText}</p>`);
-            }
-        }
-    }
-
-    var startGame = function() {
-        var level = 15
-        var difficulty = getDifficulty(level);
-        grid = new Array(15).fill(null).map(() => new Array(15).fill(null));
-        gameContent = prepGrid(grid, difficulty.maxWords, difficulty.avgWordLength, difficulty.anchorWordLength, difficulty.maxWordLength);
-        console.log(gameContent)
-        gameState=1
-
-        var gameTable = $('#game-table');
-        for (var i = 0; i < gameContent.grid.length; i++) {
-            for (var j = 0; j < gameContent.grid[i].length; j++) {
-            gameTable.find(`tr:eq(${i}) td:eq(${j})`).removeClass('grid-notUsed');
-            gameTable.find(`tr:eq(${i}) td:eq(${j})`).text('');
-
-            // If the cell has a word, don't grey it out
-            if (gameContent.grid[i][j] !== null) {
-                continue;
-            }
-
-            // Add class to grey out the cell
-            gameTable.find(`tr:eq(${i}) td:eq(${j})`).addClass('grid-notUsed');
-            }
-        }
-
-        crosswordHints(gameContent);
-
-        //Only for testing
-        // giveUpGrid(gameContent)
-    };
-
-
-    // startGame() 
+    gameLoop()
+});
+ 
+</script>
+    <center>
+        <a href="https://www.joshho.com/blog/2025/08/05/from-zero-to-crossword-generator-with-windsurf-ai/" target="_blank">Blog Post</a>
+        <br/><br/>
+        <div class='new-game'>New Game</div><div class='open-instructions'>Open Instructions</div><br/><div class='give-up-button'>Answers</div><br/>
+        <div class="container">
+        <div id="crossword-hint-horizontal"></div>
+        <table id="game-table" class="game-table">
+        <tbody>
+            <tr>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+            </tr>
+            <tr>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+            </tr>
+            <tr>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+            </tr>
+            <tr>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+            </tr>
+            <tr>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+            </tr>
+            <tr>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+            </tr>
+            <tr>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+            </tr>
+            <tr>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+            </tr>
+            <tr>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+            </tr>
+            <tr>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+            </tr>
+            <tr>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+            </tr>
+            <tr>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+            </tr>
+            <tr>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+            </tr>
+            <tr>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+            </tr>
+            <tr>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+                <td class="grid-cell"><span class="word-index"></span><span class="letter"></span></td>
+            </tr>
+        </tbody>
+        </table>
+        <div id="crossword-hint-vertical"></div>
+        </div>
+        </center>
+        <div id="instructions" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span class="modal-close">&times;</span>
+          
+          <hr/>
+          <b>Click "New Game" for a new word</b>
+        </div>
+      </div>
+    </body>
+</html>
