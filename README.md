@@ -11,4 +11,4 @@ Objective
 2. Visualize the Grid in html/css
 3. Create an html game
 
-<img width="701" height="781" alt="image" src="https://github.com/user-attachments/assets/c4546a5e-754e-47e4-b312-d8765f3217ba" />
+<img width="1037" height="783" alt="image" src="https://github.com/user-attachments/assets/78392744-478b-4b7e-bf2a-f3f352895574" />
